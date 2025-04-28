@@ -1,0 +1,222 @@
+
+.btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    gap:5px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .btn:hover{
+    color:var(--color-03);
+  }
+  
+  .btn > p{
+    font-size: xx-small;
+  }
+
+
+  figure.card {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    width:1fr;
+    background: #F2F2F2;
+    color: #000000;
+    box-shadow: 5px 5px 6px 0px lightgray;
+    transition: all 0.35s ease-in-out;
+    border-radius: 4px;
+  }
+
+  figure.card:hover {
+    box-shadow: 8px 8px 4px gray;
+  }
+
+  figure.card * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all 0.35s ease-in-out;
+    transition: all 0.35s ease-in-out;
+  }
+
+  figure.card span{
+    position:relative; 
+    top:15px; 
+    left:0px;
+    padding: 0px 10px;
+    font-weight: 800;
+    font-size: 32px;
+    width: 100%;
+    box-shadow: 1px 5px 6px 0px lightgray; 
+  }
+
+  figure.card .image {
+    height: 180px;
+    width: 1fr;
+  }
+
+  figure.card .image img {
+    position: relative;
+    display: block;
+    left: -15%;
+    z-index: 1;
+    -webkit-transform: skew(15deg);
+    transform: skew(15deg);
+  }
+  
+  figure.card:before {
+    position: absolute;
+    content: '';
+    background: rgba(0, 0, 0, 0.2);
+    -webkit-transform: skewX(-17deg);
+    transform: skewX(-17deg);
+    -webkit-box-shadow: 15px 0px 25px rgba(0, 0, 0, 0.7);
+    box-shadow: 15px 0px 25px rgba(0, 0, 0, 0.7);
+  }
+  figure.card figcaption {
+    padding: 20px 10px 20px 10px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    right: 0;
+    bottom: 30px;
+    width: 100%;
+  }
+  figure.card figcaption h2,
+  figure.card figcaption p {
+    margin: 0;
+    text-align: right;
+    padding: 10px 0;
+    width: 100%;
+  }
+  figure.card figcaption h2 {
+    font-size: 1em;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  figure.card figcaption p b {
+    font-size: 32px;
+    font-weight: 800;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  figure.card figcaption span {
+    font-size: 1.5em;
+    font-weight: 800;
+    flex-grow: 1;
+  }
+  figure.card figcaption p {
+    font-size: 0.9em;
+    opacity: 0.8;
+    height: 60px;
+  }
+  figure.card figcaption .icons {
+    width: 100%;
+    text-align: right;
+  }
+  figure.card figcaption .icons i {
+    font-size: 26px;
+    padding: 5px;
+    top: 50%;
+    color: #000000;
+    opacity: 0;
+  }
+  figure.card figcaption a {
+    opacity: 0.3;
+  }
+  figure.card figcaption a:hover {
+    opacity: 0.8;
+  }
+  figure.card .position {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    opacity: 1;
+    color: #ffffff;
+    background: #000000;
+    cursor: pointer;
+  }
+  figure.card .position button{
+      cursor: pointer;
+      border: 0;
+      background-color: transparent;
+      color: white;
+      width: 100%;
+      height: 100%;
+  }
+
+  figure.card.black .position {
+    background: black;
+  }
+  .black {color:#000000}
+  .green {color: green}
+  .blue {color: #045B8F}
+  .red {color: #9e3933}
+  .lemon {color: var(--color-09)}
+  .yellow {color: var(--color-08)}
+  
+  figure.card.green .position {
+    background: green;
+  }
+  figure.card.blue .position {
+    background: #045B8F;
+  }
+  figure.card.red .position {
+    background: #9e3933;
+  }
+  figure.card.yellow .position {
+    background: var(--color-08);
+  }
+  figure.card.lemon .position {
+    background: var(--color-09);
+  }
+
+  
+  figure.card:hover figcaption,
+  figure.card.hover figcaption {
+    bottom: 50px;
+  }
+  figure.card:hover .icons i,
+  figure.card.hover .icons i {
+    opacity: 1;
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+  }
+  figure.card:hover:before,
+  figure.card.hover:before {
+    -webkit-animation: shadow 0.6s ease-in-out;
+    animation: shadow 0.6s ease-in-out;
+  }
+  @-webkit-keyframes shadow {
+    0% {
+      left: 0px;
+    }
+    50% {
+      left: -5px;
+    }
+    100% {
+      left: 0px;
+    }
+  }
+  @keyframes shadow {
+    0% {
+      left: 0px;
+    }
+    50% {
+      left: -5px;
+    }
+    100% {
+      left: 0px;
+    }
+  }
+  

@@ -1,0 +1,8 @@
+<div class="range">
+    <label>{{clabel}}</label>
+    <div class="conteudo">
+        <input type="text" [(ngModel)]="cini" class="po-input"  (ngModelChange)="retorno()" [mask]="cmask"/>
+        <div class="border po-input">até </div>
+        <input type="text" [(ngModel)]="cfim" class="po-input" (ngModelChange)="retorno()" [mask]="cmask" />
+    </div>
+</div>

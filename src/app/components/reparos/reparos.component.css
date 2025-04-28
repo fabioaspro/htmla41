@@ -1,0 +1,6 @@
+.btnEliminar{
+    display: flex;
+    gap:10px;
+    margin-bottom: -52px;
+    margin-top: 12px;
+}

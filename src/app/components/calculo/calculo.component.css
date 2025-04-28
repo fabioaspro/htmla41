@@ -1,0 +1,237 @@
+
+.tipoCalculo {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.icone {
+    width: 50px;
+    height: 40px;
+    font-size: 32px;
+    float: left;
+    margin: 0 5px 5px 0;
+    text-align: center;
+
+    & i {
+        color: white;
+    }
+}
+
+.formatoTexto {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+figure.snip0057 {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    width:1fr;
+    background: #F2F2F2;
+    color: #000000;
+    box-shadow: 5px 5px 6px 0px lightgray;
+    transition: all 0.35s ease-in-out;
+    border-radius: 4px;
+  }
+
+  figure.snip0057:hover {
+    box-shadow: 8px 8px 4px gray;
+    
+  }
+
+  figure.snip0057 * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all 0.35s ease-in-out;
+    transition: all 0.35s ease-in-out;
+  }
+
+  figure.snip0057 span{
+    position:relative; 
+    top:15px; 
+    left:0px;
+    padding: 0px 10px;
+    font-weight: 800;
+    font-size: 1.8em;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 1px 5px 6px 0px lightgray;  
+    
+  }
+
+  figure.snip0057 .image {
+    height: 200px;
+    width: 200px;
+  }
+
+  figure.snip0057 .image img {
+    position: relative;
+    display: block;
+    left: -15%;
+    z-index: 1;
+    -webkit-transform: skew(15deg);
+    transform: skew(15deg);
+  }
+  
+  figure.snip0057:before {
+    position: absolute;
+    content: '';
+    background: rgba(0, 0, 0, 0.2);
+    -webkit-transform: skewX(-17deg);
+    transform: skewX(-17deg);
+    -webkit-box-shadow: 15px 0px 25px rgba(0, 0, 0, 0.7);
+    box-shadow: 15px 0px 25px rgba(0, 0, 0, 0.7);
+  }
+  figure.snip0057 figcaption {
+    padding: 10px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    right: 0;
+    bottom: 60px;
+    width: 100%;
+  }
+  figure.snip0057 figcaption h2,
+  figure.snip0057 figcaption p {
+    margin: 0;
+    text-align: right;
+    padding: 10px 0;
+    width: 100%;
+  }
+  figure.snip0057 figcaption h2 {
+    font-size: 1em;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  figure.snip0057 figcaption span {
+    font-size: 1.5em;
+    font-weight: 800;
+    flex-grow: 1;
+  }
+  figure.snip0057 figcaption p {
+    font-size: 0.9em;
+    opacity: 0.8;
+    height: 60px;
+  }
+  figure.snip0057 figcaption .icons {
+    width: 100%;
+    text-align: right;
+  }
+  figure.snip0057 figcaption .icons i {
+    font-size: 26px;
+    padding: 5px;
+    top: 50%;
+    color: #000000;
+    opacity: 0;
+  }
+  figure.snip0057 figcaption a {
+    opacity: 0.3;
+  }
+  figure.snip0057 figcaption a:hover {
+    opacity: 0.8;
+  }
+  figure.snip0057 .position {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    opacity: 1;
+    color: #ffffff;
+    background: #000000;
+    cursor: pointer;
+  }
+  figure.snip0057 .position button{
+      cursor: pointer;
+      border: 0;
+      background-color: transparent;
+      color: white;
+      width: 100%;
+      height: 100%;
+  }
+
+  figure.snip0057.black .position {
+    background: black;
+  }
+
+  .green {color: var(--color-10)}
+  .blue {color: var(--color-01)}
+  .red {color: var(--color-07)}
+  .lemon {color: var(--color-09)}
+  .yellow {color: var(--color-08)}
+  
+  figure.snip0057.green .position {
+    background: var(--color-10);
+  }
+  figure.snip0057.blue .position {
+    background: var(--color-01);
+  }
+  figure.snip0057.red .position {
+    background: var(--color-07);
+  }
+  figure.snip0057.yellow .position {
+    background: var(--color-08);
+  }
+  figure.snip0057.lemon .position {
+    background: var(--color-09);
+  }
+
+  
+  figure.snip0057:hover figcaption,
+  figure.snip0057.hover figcaption {
+    bottom: 80px;
+  }
+  figure.snip0057:hover .icons i,
+  figure.snip0057.hover .icons i {
+    opacity: 1;
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+  }
+  figure.snip0057:hover:before,
+  figure.snip0057.hover:before {
+    -webkit-animation: shadow 0.6s ease-in-out;
+    animation: shadow 0.6s ease-in-out;
+  }
+  @-webkit-keyframes shadow {
+    0% {
+      left: 0px;
+    }
+    50% {
+      left: -5px;
+    }
+    100% {
+      left: 0px;
+    }
+  }
+  @keyframes shadow {
+    0% {
+      left: 0px;
+    }
+    50% {
+      left: -5px;
+    }
+    100% {
+      left: 0px;
+    }
+  }
+  
+  
+  /* Demo purposes only */
+  
+  .card-container {
+    display: flex;
+    justify-content: space-between;
+   
+  }
+
+
+  
+
+

@@ -1,0 +1,74 @@
+<div class="sample-container">
+    <po-loading-overlay *ngIf="loadTela===true" [p-screen-lock]="true"></po-loading-overlay>
+</div>
+
+<div class="po-md-12" style="margin-bottom: 20px;">
+    <po-button p-label="Efetivar Informações" (p-click)="onEfetivar()" p-icon="bi bi-check2" [p-disabled]='form_.disabled' p-kind="primary"></po-button>
+</div>  
+
+<div class="po-md-12">
+<po-widget p-title="Edite as Informações da Embalagem para a Primeira Nota">
+
+    <div class="boxOS" >
+        <div><i><small>Cod.Estabel</small></i><p>{{infoPrimeiraNota["cod-estabel"]}}</p></div>
+        <div><i><small>Série</small></i><p>{{infoPrimeiraNota["serie"]}}</p></div>
+        <div><i><small>Nota Fiscal</small></i><p>{{infoPrimeiraNota["nr-nota-fis"]}}</p></div>
+    </div>
+
+<po-table [p-items]="listaGrid" #grid
+          p-container="true"
+          [p-columns]="colunas" 
+          [p-hide-table-search]="true" 
+          [p-hide-columns-manager]="true" >
+          <ng-template p-table-cell-template let-column="column" let-row="row">
+            <div class="menuGrid">
+                 <div><button class="btn"  (click)="onEditar()"><i class="bi bi-pencil-square" ></i><p>Embalagem</p></button></div>
+            </div>
+          </ng-template>
+          </po-table>
+        </po-widget>
+</div>
+
+<po-modal [p-title]="titleEmbal" #tela [p-primary-action]="this.acaoSalvar" p-click-out="false" >
+    
+    <form [formGroup]="form_">
+        <div class="po-md-4"><po-input p-clean="true" p-auto-focus="true" p-label="Volumes" formControlName="qt-volume" ></po-input>
+            <div *ngIf="this.form_.controls['qt-volume'].errors" style="color:red">* Volume deve ser preenchido</div>
+        </div>
+        
+        <div class="po-md-12">
+            <po-widget>
+            <po-radio-group  name="options" formControlName="modal" 
+                             (p-change)="onAlterarModal($event)"
+                             [p-columns]="2" 
+                             [p-options]="options" 
+                             p-label="Modalidade Embalagem"/></po-widget>
+        </div>
+
+        <div class="po-md-4"><po-input p-clean="true"  p-label="Embalagem" formControlName="cod-embal" name="cod-embal" ></po-input></div>
+        <div class="po-md-4"><po-input p-clean="true"  p-label="Qtd Embalagem" formControlName="qt-embal" name="qt-embal"  ></po-input></div>
+        <div class="po-row"></div>
+
+        <!-- <div class="po-md-4"><po-input p-clean="true"  p-label="Peso Liq." formControlName="peso-liq"  ></po-input></div>
+        <div class="po-md-4"><po-input p-clean="true"  p-label="Peso Bru." formControlName="peso-bru" ></po-input></div>  -->
+        
+        <div class="po-md-4">
+            <div style="display: flex;flex-direction: column;">
+                <div><label class="po-font-text-large-bold">Peso Liq</label></div>
+                <div><input [leadZero]="true" thousandSeparator="." mask="separator.3" decimalMarker="," class="po-input" formControlName="peso-liq" p-label="Peso Liq" /></div>
+            </div>
+        </div>
+        <div class="po-md-4">
+            <div style="display: flex;flex-direction: column;">
+                <div><label class="po-font-text-large-bold">Peso Bruto</label></div>
+                <div><input [leadZero]="true" thousandSeparator="." mask="separator.3" decimalMarker="," class="po-input" formControlName="peso-bru" /></div>
+            </div>
+        </div>
+
+    </form>
+
+</po-modal>
+
+
+
+

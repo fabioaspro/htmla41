@@ -1,0 +1,58 @@
+<div class="sample-container">
+  <po-loading-overlay *ngIf="loadTela===true" [p-screen-lock]="true"></po-loading-overlay>
+</div>
+<div class="po-md-12">
+  <po-widget>
+    
+    <div class="po-md-12 btnEliminar">
+     <!--  <po-button (p-click)="LogarUsuario()" p-icon="bi bi-person-workspace" p-tooltip="Selecionar outro usuário"></po-button> -->
+      <po-button p-tooltip="Eliminar Todos" p-icon="bi bi-trash" p-label="Eliminar Todos" p-danger="true" (p-click)="onDeletarTodos()"></po-button>
+      <po-button p-tooltip="Abrir Reparos" p-icon="bi bi-printer" p-label="Abrir e Imprimir Reparos" p-kind="primary" (p-click)="onAbrirReparos()"></po-button>
+    </div>
+    <po-table [p-items]="listaReparos" #gridReparos
+              [p-striped]="true" 
+              [p-height]="alturaGrid"
+              p-container="true"
+              [p-columns]="colunasReparos" 
+              [p-hide-table-search]="false" 
+              [p-hide-columns-manager]="true">
+                  <ng-template  p-table-column-template p-property="tem-equival" let-value>
+                    <i class="bi bi-x-square" *ngIf="value === true" [style.font-size]="'16px'"></i>
+                    <i class="bi bi-square" *ngIf="value === false" [style.font-size]="'16px'"></i>
+                  </ng-template>
+                  <ng-template p-table-cell-template let-column="column" let-row="row">
+                    <div class="menuGrid">
+                         <div><button class="btn"  (click)="onEditar(row)"><i class="bi bi-pencil-square" ></i><p>Alterar</p></button></div>
+                         <div><button class="btn"  (click)="onDeletar(row)" style="color:var(--color-07)"><i class="bi bi-trash"></i><p>Eliminar</p></button></div>
+                    </div>
+                  </ng-template>
+    </po-table>
+  </po-widget>
+</div>
+
+<div class="po-md-12">
+  <po-widget>
+    <b>Justificativa da Equivalência</b>
+    <po-textarea [(ngModel)]="cJustificativa" [p-rows]="2"></po-textarea>
+    <div class="po-md-12">
+      
+    </div>
+  </po-widget>
+</div>
+
+
+<po-modal #telaAlterar p-title="Alterar Reparo"
+                       p-size="md" 
+                       [p-primary-action]="acaoSalvar" 
+                       [p-secondary-action]="acaoCancelar">
+
+    <po-widget p-title="Dados Equivalência" >
+      <div style="display: flex;gap:20px">
+        <!-- <div><po-checkbox [(ngModel)]="lequiv" (p-change)="tagEquiv()" p-label="EQV"> </po-checkbox></div> -->
+        <div><po-input [(ngModel)]="itCodigoEquiv" p-label="Item Equivalência" p-mask="__.___._____-__"></po-input></div>
+        <div><po-input [(ngModel)]="qtdEquiv" p-label="Qtd.Equiv"></po-input></div>
+        <div><po-input [(ngModel)]="numSerie" p-label="Num Série Garantia" (p-blur)="onLeaveNumSerie()"></po-input></div>
+    </div>
+    </po-widget>
+
+  </po-modal>

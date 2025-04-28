@@ -1,0 +1,13 @@
+.corpo{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap:5px;
+}
+
+.input{
+    padding: 5px;
+    border-radius: 5px; 
+    line-height: 18px;
+    
+}

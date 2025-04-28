@@ -1,0 +1,23 @@
+.boxOS{
+    display: flex;
+    justify-content: center;
+    height: 44px;
+    width: 250px;
+    border: 1px solid #045B8F;
+    background: #D7F0FE;
+    border-radius: 4px;
+    color:#045B8F;
+    column-gap:20px;
+    padding: 0 20px 10px 20px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+  .boxOS div p{
+    font-size: small;
+    font-weight: bold;
+    margin-top: -5px;
+  }
+
+  .boxOS div {
+    text-align: center;
+  }

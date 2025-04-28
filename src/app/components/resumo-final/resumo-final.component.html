@@ -1,0 +1,43 @@
+<div class="sample-container">
+    <po-loading-overlay *ngIf="loadTela===true" [p-screen-lock]="true"></po-loading-overlay>
+  </div>
+  
+<po-widget p-title="Geração Arquivo Conferência de OS e Finalização Processo">
+  <div style="display: flex; gap:10px;margin-bottom: 40px;">
+      <po-button p-label="Gerar Arquivo Conferência OS" p-kind="primary" p-icon="bi bi-gear" (p-click)="onImpressao()"></po-button>
+      <po-button p-label="Finalizar Processo" (p-click)="onFinalizar()" p-icon="bi bi-check2-all"></po-button>
+  </div>    
+
+  <div>
+      <po-table [p-items]="listaArquivos" 
+                [p-columns]="colunasArquivos" 
+                [p-hide-table-search]="true"
+                p-container="true"
+                [p-hide-columns-manager]="true"
+                >
+
+        <ng-template  p-table-column-template p-property="nomeArquivo" let-value>
+            <btnDownload [nomeArquivo]="value"></btnDownload>
+        </ng-template>
+    </po-table>
+
+  </div>   
+    
+   
+
+</po-widget>
+
+<po-modal #timer [p-title]=labelPedExec
+p-size="sm" 
+p-click-out="false" 
+[p-hide-close]="true"
+[p-hide-close]="true"
+[p-primary-action]="acaoCancelarTimer">
+<p class="po-font-title"><i  [ngClass]="labelTimer === 'Arquivo liberado !' ? 'bi bi-alarm-fill' : 'bi bi-alarm'"></i> {{labelTimer}}</p>  
+<p class="po-font-text-large">{{labelTimerDetail}}</p> 
+</po-modal>
+
+<rpw-acomp [numPedExec]="numPedExec()"
+           [intervalo]="5000" 
+           [tentativas]="50">
+</rpw-acomp>
