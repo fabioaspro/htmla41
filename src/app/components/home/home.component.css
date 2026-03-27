@@ -1,0 +1,289 @@
+.logo{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+}
+
+.hero {
+  top:-10px;
+  left: -20px;
+  width: 100vw;
+  height: 100%;
+  text-align: center;
+  color: #CCC;
+  position: relative;
+  text-transform: uppercase;
+  scrollbar-width: none;
+  
+}
+
+.hero-one {
+  top: 0;
+  position: absolute;
+  text-align: center;
+  width: 60%;
+  background-color: #045B8F;
+  height: 100%;
+  clip-path: polygon(0 0, 60vw 0, 40vw 100vh, 0 100vh);
+  z-index: 1;
+  background-image:linear-gradient(to left, rgba(0,73,122,0.6) 26.48%, rgba(0,51,102,0.6) 73.52%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.hero-two {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80%;
+  background-color: #ebeef0;
+  height: 100%;
+  background-image: linear-gradient(to left, rgba(242, 242, 242, 0.9) 26.48%, rgba(116, 107, 107, 1) 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.header-title {
+  color:#CCC;
+  z-index: 2;
+  position: absolute;
+  top: 80px;
+  left: 28%;
+  transform: translate(-50%, -50%);
+}
+
+.header-primary {
+  font-size: 2em;
+  display: block;
+  font-weight: 700;
+}
+
+.header-sub{
+  position: relative;
+  top: 10px;
+  & i{font-size:32px}
+}
+
+.grid-opcoes {
+  display: grid;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  top:100px;
+  left: 80px;
+  gap:10px;
+  align-items: center;
+  padding: 20px;
+}
+
+.opcao {
+  all: unset;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform .3s;
+  height: 75px;
+  width: 60%;
+  align-content: center;
+  text-align: left;
+  background-color: #DDD;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  font-size: 16px;
+  grid-column: 2;
+  text-transform:none;
+}
+
+.opcao:hover{
+  background: steelblue;
+  box-shadow: rgba(0, 0, 0, 0.35) 5px 15px 15px;
+  & .square i{color:white}
+  & span{color:white}
+  & .info div h4{color:white}
+}
+
+.opcao div.square {
+  /*border: solid 1px #c4c2c2;*/
+  width: 50px;
+  height: 40px;
+  float:left; 
+  margin-top: 5px;
+  text-align: center; 
+}
+.square i { font-size: 32px}
+.info{
+  display: flex;
+  flex-direction: column;
+  & div h4{color:black}
+  & span{ color:rgb(107, 107, 107)}
+}
+
+.versao{
+  position: absolute;
+  bottom: 20px;
+  color:  #045B8F;
+  z-index: 2;
+  width: 200px;
+  margin-left: 65%;
+  
+  
+  & span{margin-left: 10px;}
+
+  & div{
+    position: relative;
+  }
+
+  &::before{
+    content: '';
+    font-weight: 700;
+    position: absolute;
+    height: 2px;
+    border-bottom: 1px solid  #045B8F;;
+    top: 10px;
+    width: 30px;
+    left: -30px;
+    
+    
+  }
+
+  &::after{
+    content: '';
+    font-weight: 700;
+    position: absolute;
+    height: 2px;
+    width: 30px;
+    border-bottom: 1px solid  #045B8F;;
+    top: 10px;
+    left:105px
+  }
+}
+
+
+/* NOVO */
+
+.homepage{
+  top:150px;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  gap:40px;
+  justify-content: center;
+  z-index: 99;
+  text-transform: none;
+ 
+}
+
+.homepage .card{
+  position: relative;
+  cursor: pointer;
+  
+}
+
+.homepage .card .face{
+  width: 200px;
+  height: 130px;
+  transition: 0.5s;
+  border-radius: 4px;
+}
+
+.homepage .card .face.face1{
+  position: relative;
+  background: #DDD;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  transform: translateY(30px);
+}
+
+.homepage .card:hover .face.face1{
+  background: steelblue;
+  transform: translateY(0);
+}
+
+.homepage .card .face.face1 .content{
+  opacity: 0.6;
+  transition: 0.5s;
+}
+
+.homepage .card:hover .face.face1 .content{
+  opacity: 1;
+}
+
+.homepage .card:hover .face.face1 .content i {
+  color:whitesmoke;
+}
+
+.homepage .card:hover .face.face1 .content h3 {
+  color:whitesmoke;
+}
+
+.homepage .card .face.face1 .content i{
+  color:black;
+}
+
+.homepage .card .face.face1 .content img{
+  max-width: 100px;
+}
+
+.homepage .card .face.face1 .content h3{
+  margin: 10px 0 0;
+  padding: 0;
+  color: black;
+  text-align: center;
+  font-size: 1.3em;
+}
+
+.homepage .card .face.face2{
+  position: relative;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  transform: translateY(-100px);
+}
+
+.homepage .card:hover .face.face2{
+  transform: translateY(-10px);
+}
+
+.homepage .card:hover .face.face1{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.homepage .card .face.face2 .content p{
+  color:black;
+  
+  margin-top: 10px;
+  padding: 0;
+}
+
+.homepage .card .face.face2 .content a{
+  margin: 10px 0 0;
+  display:  inline-block;
+  text-decoration: none;
+  font-weight: 900;
+  color: #045B8F;
+  padding: 5px;
+  border: 1px solid #045B8F;
+  width: 150px;
+  border-radius: 10px;
+  transition: .3s;
+}
+
+.homepage .card .face.face2 .content a:hover{
+  background: steelblue;
+  color: #fff;
+}
+
+
+
+
+
+        
+

@@ -1,0 +1,10 @@
+<figure class="card {{this.tipo}}">
+    <span [ngClass]="this.tipo">{{this.cont}}</span>
+    <figcaption>
+      <h2 [ngClass]="this.tipo">{{this.cabec}}</h2>
+      <p [innerHTML]="this.desc"></p>
+    </figcaption>
+    <div class="image"></div>
+    <div class="position"><button (click)="this.execFunction()">Visualizar</button></div>
+</figure>
+

@@ -1,0 +1,164 @@
+
+::ng-deep .po-table td {
+  padding: 1px !important;
+}
+
+.serie{
+    /* display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    column-gap: 3px; */
+    position: relative;
+  }
+  
+  .enc{
+    position: relative;
+  }
+  
+  .serie i{
+    color:lightgray;
+    font-size:32px;
+    position: absolute;
+    top: 0px;
+    left: 5px;
+  }
+  
+  .serie input{
+    width:170px;
+    font-size:16px; 
+    height: 32px;
+    padding-left: 40px;
+  }
+  
+  .enc input{
+    width: 150px;
+    font-size:16px; 
+    height: 32px;
+    padding-left:40px
+  }
+  
+  .enc i{
+    color:lightgray;
+    font-size:32px;
+    position: absolute;
+    top: 0px;
+    left: 5px;
+  }
+  
+  .po-radio {
+    font-size: 8px;
+  }
+  
+  .box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      justify-items: center;
+      height: 70px;
+      border: 1px solid lightgray;
+      border-radius: 4px;
+      margin-top: 5px;
+      background: linear-gradient(0deg, white,#E5E5E5 80%) ;
+      
+    }
+    
+    .box div {
+      display: flex;
+      width: 150px;
+      flex-direction: column;
+      align-content: center;
+      align-items: center;
+    }
+    .box div strong{
+      color:#045B8F;
+    }
+  
+    .botoesOS{
+      
+      margin-top: 12px; 
+      margin-bottom: -52px;
+      display: flex;
+      gap: 2px;
+    }
+  
+    .botoesItens{
+      margin-left: -5px;
+      margin-top: 12px; 
+      margin-bottom: -52px;
+      display: flex;
+      gap:2px;
+      align-items: center;
+      
+    }
+    .observacao{
+      display: flex;
+      align-items: center;
+      align-content: center;
+      height: 70px;
+      width: 100%;
+      border: 1px solid lightgray;
+      border-radius: 4px;
+      margin-top: 5px;
+      padding: 20px;
+      background: linear-gradient(0deg, white,#E5E5E5 80%) ;
+    }
+  
+    .boxOS{
+      display: flex;
+      justify-content: center;
+      height: 44px;
+      width: 200px;
+      border: 1px solid #045B8F;
+      background: #D7F0FE;
+      border-radius: 4px;
+      color:#045B8F;
+      column-gap:10px;
+      padding: 0 20px 10px 20px;
+      
+      
+    }
+    .boxOS div p{
+      font-size: small;
+      font-weight: bold;
+      margin-top: -5px;
+    }
+  
+    .boxOS div {
+      text-align: center;
+    }
+  
+    .formatoTexto{
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px; 
+      font-variant-numeric: tabular-nums;
+    }
+  
+    .flex-row {
+      display: flex;
+      width:1fr;
+      gap:10px;
+    }
+  
+    .flex-row > div {
+      height: 30px;
+      width:150px;
+    }
+    
+     
+    .label{
+    width:150px;
+    text-align: right;
+    margin-top: 20px;
+    font-size: 14px;
+    }
+    
+    .desc{
+      flex-grow: 1;
+      max-width:600px; 
+    }
+  
+    
+   
+      
+  
+    

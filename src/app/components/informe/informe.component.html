@@ -1,0 +1,378 @@
+<div class="sample-container">
+  <po-loading-overlay *ngIf="loadTela===true" [p-screen-lock]="true"></po-loading-overlay>
+</div>
+
+<!-- <a [href]="{{cPrefixo}}/InfOS-131-2033-01555487.tmp" download="InfOS-131-2033-01555487.tmp">Meu arquivo</a> -->
+
+
+<po-accordion style="margin-top: 10px;" #principal p-allow-expand-all-items="false" p-show-manager-accordion="false" >
+    <po-accordion-item p-label="Informações do Técnico" #item1>
+       <po-widget>
+        <form [formGroup]="form" >
+
+        <div class="po-md-4">
+          <po-combo formControlName="codEstabel" [p-options]="listaEstabelecimentos" p-label="Estabelecimento"
+          (p-change)="onEstabChange($event)"
+            p-icon="bi bi-pin-map" p-placeholder="Selecione o estabelecimento" p-clean="true">
+            <ng-template p-combo-option-template let-option>
+              <div class="po-row">
+                <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-pin-map"></po-icon>
+                <div class="po-sm-10 po-md-9 po-lg-11">
+                  <div class="po-font-text-large-bold">{{ option.label }}</div>
+                  <div class="po-font-text-smaller">Filial: {{ option.codFilial }}</div>
+                </div>
+              </div>
+            </ng-template>
+          </po-combo>
+        </div>
+
+        <div class="po-md-4">
+          <po-combo p-label="Técnico" formControlName="codUsuario" 
+          (p-change)="onTecnicoChange($event)"
+                p-icon="bi bi-person-workspace"     [p-options]="listaTecnicos"
+                [p-placeholder]="loadTecnico" [p-clean]="true" >
+                <ng-template p-combo-option-template let-option>
+                  <div class="po-row">
+                    <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-person-workspace"></po-icon>
+                    <div class="po-sm-10 po-md-9 po-lg-11">
+                      <div class="po-font-text-large-bold">{{ option.label }}</div>
+                      <div class="po-font-text-smaller">Técnico: {{ option.value }}</div>
+                    </div>
+                  </div>
+                </ng-template>
+              </po-combo>
+        </div>
+
+        <div class="po-md-4">
+          <div class="po-md-8"><po-password name="password" formControlName="senha" p-label="Senha"> </po-password></div>
+          <div class="po-md-4" style="margin-top: 33px;"><po-button p-icon="bi bi-check2" (p-click)="onLogar()" [p-disabled]="!this.form.valid"></po-button></div>
+        </div>
+       </form>
+       </po-widget>
+     
+    
+    </po-accordion-item>
+
+    <po-accordion-item p-label="Ordens de Serviço e Itens da Ordem" [p-label-tag]="cTag" #item2>
+        <div class="po-md-5">
+          <div class="po-md-12 botoesOS" *ngIf=" this.mostrarDados === true">
+            <po-button p-tooltip="Gerar Informe OS" (p-click)="onImpressao()" p-icon="bi bi-printer"></po-button>
+            <btnDownload p-tooltip="Baixar Informe OS" [nomeArquivo]="arquivoInfoOS" [mostrarNomeArquivo]="false" style="height: 43px;"></btnDownload>
+            <po-button p-tooltip="Nova OS" p-icon="bi bi-plus" p-kind="primary" p-kind="primary" (p-click)="onIncluirOrdem()"></po-button>
+          </div>
+                <po-table [p-items]="listaOrdens" class="po-font-smaller" #gridOrdens 
+                          (p-selected)="selecionarOrdem($event)"
+                          [p-actions]="acoesGridOrdem"
+                          [p-striped]="true" 
+                          [p-loading]="loadGridOrdem"
+                          [p-single-select]="true"
+                          [p-selectable]="true"
+                          [p-columns]="colunasOrdens"
+                          [p-hide-table-search]="false" 
+                          p-container="true"
+                          [p-height]="alturaGrid"
+                          [p-hide-columns-manager]="true">
+                    <!-- <ng-template  p-table-column-template p-property="flag" let-value>
+                      <i class="bi bi-check-square-fill" *ngIf="value === 'X'" [style.color]="'#c64840'" [style.font-size]="'16px'"></i>
+                    </ng-template> 
+ -->
+                    <ng-template p-table-cell-template let-column="column" let-row="row">
+                       <div><button class="btn" style="border: none; width: auto; background-color: transparent;" [style.color]="'#c64840'" [style.font-size]="'24px'" (click)="onMarcarDesmarcar(row)"><i [ngClass]="row.flag === 'X' ? 'bi bi-check-square-fill' : 'bi bi-square'"></i></button></div>
+                    </ng-template>
+
+                </po-table>
+                          
+               
+                  <div class="box" *ngIf=" this.mostrarDados === true">
+                    <div class="po-md-4"><strong>Usadas</strong><po-tag [p-value]="cUsadas" p-color="color-10" p-text-color="white"></po-tag></div>
+                    <div class="po-md-4"><strong>Em Branco</strong><po-tag  [p-value]="cBrancas" p-color="color-01" p-text-color="white"></po-tag></div>
+                    <div class="po-md-4"><strong>Total</strong><po-tag      [p-value]="cTotal" p-color="color-07" p-text-color="white"></po-tag></div>
+                </div>
+               
+            
+        </div>
+
+        <div class="po-md-7">
+          <div class="po-md-12 botoesItens" *ngIf="this.mostrarDados === true">
+            <div class="boxOS" >
+              <div><i><small>NumOS</small></i><p>{{cOS}}</p></div>
+              <div><i><small>Chamado</small></i><p>{{cChamado}}</p></div>
+            </div>
+            <po-button p-icon="bi bi-plus" p-tooltip="Incluir Item" p-kind="primary" (p-click)="onIncluirItemOrdem()"></po-button>
+            <po-button p-icon="bi bi-upc-scan" p-tooltip="Números de Séries Pendentes" (p-click)="onSeriesPendentes()"></po-button> 
+            
+          </div>
+         
+          <po-table [p-items]="listaItens" 
+                    [p-loading]="loadGrid" 
+                    [p-actions]="acoesGridItem"
+                    (p-selected)="selecionarItemOrdem($event)"
+                    [p-striped]="true" 
+                    [p-single-select]="true"
+                    [p-selectable]="true"
+                    [p-columns]="colunasItens"
+                    p-container="true"
+                    [p-height]="alturaGrid"
+                    [p-hide-table-search]="false" 
+                    [p-hide-columns-manager]="true">
+                    <ng-template p-table-cell-template let-column="column" let-row="row">
+                      @if(row.atividade === '113'){
+                        @if(column.property === 'it-codigo'){
+                          <h4 [style.background]="'#c64840'" [style.color]="'white'">{{row['it-codigo']}}</h4>
+                        }
+                        @if(column.property === 'atividade'){
+                          <h4 [style.background]="'#c64840'" [style.color]="'white'">{{row['atividade']}}</h4>
+                        }
+                      }
+                      @else{
+                        @if(column.property === 'it-codigo'){
+                          <h4>{{row['it-codigo']}}</h4>
+                        }
+                        @if(column.property === 'atividade'){
+                          <h4>{{row['atividade']}}</h4>
+                        }
+                      }
+                      <div class="serie" *ngIf="column.property === 'num-serie-it'">
+                        <i class="bi bi-upc"></i><input [(ngModel)]="row['num-serie-it']" name="num-serie-it" (blur)="onLeaveNumSerieItem(row)">
+                      </div>
+                    </ng-template>
+            </po-table>
+         
+            
+            <div class="po-md-12 observacao" *ngIf=" this.mostrarDados === true"> <p>{{edObservacao}}</p></div>
+          
+          </div>
+       
+    </po-accordion-item>
+
+    <po-accordion-item p-label="Log de Arquivos">
+      <po-widget *ngIf=" this.mostrarDados === true">
+        <po-table [p-items]="listaArquivos" 
+                  [p-columns]="colunasArquivos" 
+                  [p-hide-table-search]="true"
+                  [p-hide-columns-manager]="true">
+
+            <ng-template  p-table-column-template p-property="nomeArquivo" let-value>
+              <btnDownload [nomeArquivo]="value"></btnDownload>
+            </ng-template>
+        </po-table>
+        
+      </po-widget>
+
+    </po-accordion-item>
+
+  </po-accordion>
+
+  <rpw-acomp [numPedExec]="numPedExec()" 
+           [intervalo]="5000" 
+           [tentativas]="50">
+</rpw-acomp>
+  
+  <po-modal #telaIncluirOrdem p-title="Incluir Ordem Serviço"
+                              p-size="auto" 
+                              p-click-out="false" 
+                              [p-hide-close]="true"
+                              [p-primary-action]="acaoIncluirOrdem" 
+                              [p-secondary-action]="acaoCancelarOrdem">
+      <form [formGroup]="formOrdem">
+        <div class="po-md-6"><po-input name="numOS" formControlName="numOS" p-label="NumOS" > </po-input></div>
+        <div class="po-md-6"><po-input name="Chamado" formControlName="Chamado" p-label="Chamado" ></po-input></div>
+      </form>
+  </po-modal>
+
+  <po-modal #telaAlterarOrdem p-title="Alterar Chamado"
+                              p-size="sm" 
+                              p-click-out="false" 
+                              [p-hide-close]="true"
+                              [p-primary-action]="acaoAlterarOrdem" 
+                              [p-secondary-action]="acaoCancelarOrdem">
+      <form [formGroup]="formOrdem">
+        <div class="po-md-6"><po-input name="Chamado" formControlName="Chamado" p-label="Chamado" ></po-input></div>
+      </form>
+  </po-modal>
+
+  <po-modal #telaIncluirEnc p-title="Incluir ENC" 
+      p-size="auto" 
+      p-click-out="false" 
+      [p-primary-action]="acaoIncluirEnc" 
+      [p-secondary-action]="acaoCancelarEnc">
+    
+      <form [formGroup]="formEnc">
+      <div class="po-md-12">
+       <po-widget>
+          
+          <div class="flex-row">
+            <div class="label"><label>Estabelecimento:</label></div>
+            <div><po-input formControlName="cod-estabel"/></div>
+            <div class="desc" ><po-input formControlName="nom-estabel"/></div>
+          </div>
+          
+          <div class="flex-row">
+            <div class="label"><label>Filial:</label></div>
+            <div><po-input              formControlName="CodFilial"/></div>
+            <div class="desc"><po-input formControlName="nom-filial" /></div>
+          </div>
+          
+          <div class="flex-row">
+            <div class="label"><label>Num Enc:</label></div>
+            <div><po-input formControlName="nr-enc" [p-maxlength]="9"/></div>
+            
+            <div class="label"><label>Série Enc:</label></div>
+            <div><po-input formControlName="Serie-enc"/></div>
+            
+            <div class="label" style="width:120px"><label>Filial Enc:</label></div>
+            <div><po-input formControlName="CodFilial-enc"/></div>
+          </div>
+          
+          <div class="flex-row">
+            <div class="label"><label>Item:</label></div>
+            <div><po-input formControlName="it-codigo"/></div>
+            <div class="desc"><po-input formControlName="desc-item"/></div>
+          </div>
+        </po-widget>
+      </div>
+      
+      
+      <div class="po-md-12">
+        <po-widget>
+          <div class="flex-row">
+            <div class="label"><label>Defeito:</label></div>
+            <div><po-input formControlName="DefInd" (p-blur)="onLeaveDefeito()"/></div>
+            <div class="desc" ><po-input formControlName="desc-defeito"/></div>
+          </div>
+
+          <div class="flex-row">
+            <div class="label"><label>Atividade:</label></div>
+            <div><po-input formControlName="atividade" (p-blur)="onLeaveAtividade()"/></div>
+            <div class="desc" ><po-input formControlName="desc-atividade"/></div>
+          </div>
+
+          <div class="flex-row">
+            <div class="label"><label>Num Série Atual:</label></div>
+            <div><po-input formControlName="NumSerie-atu"/></div>
+            <div class="label"><label>Num Série Ant:</label></div>
+            <div><po-input formControlName="NumSerie-ant"/></div>
+          </div>
+
+          <div class="flex-row">
+            <div class="label"><label>Filial Ant:</label></div>
+            <div><po-input formControlName="FilAnt"/></div>
+            
+            <div class="label"><label>Rep.Ant:</label></div>
+            <div><po-input formControlName="RRAnt"/></div>
+            
+            <div class="label" style="width:120px"><label>Dt Rep Ant:</label></div>
+            <div style="width:200px"><po-datepicker formControlName="DataRRAnt"> </po-datepicker></div>
+          </div>
+
+          <div class="flex-row">
+            <div class="label"><label>Cli Orig:</label></div>
+            <div><po-input formControlName="clisirog"/></div>
+          </div>
+
+          <div class="flex-row">
+            <div class="label"><label>Site:</label></div>
+            <div><po-input formControlName="cod-emitente" (p-blur)="onLeaveSite()"/></div>
+            <div class="desc" ><po-input formControlName="nom-emitente"/></div>
+          </div>
+        </po-widget>
+        
+        <div class="flex-row">
+            <div class="label"><label>Observação:</label></div>
+            <div style="width:600px"><po-textarea formControlName="observacao" [p-rows]="4"/></div>
+        </div>
+        
+      </div>
+    </form>
+  </po-modal>
+
+  <po-modal #telaIncluirItemOrdem p-title="Item Ordem Serviço"
+                              p-size="auto" 
+                              p-click-out="false" 
+                              [p-primary-action]="acaoIncluirItemOrdem" 
+                              [p-secondary-action]="acaoCancelarItemOrdem">
+      <form [formGroup]="formItemOrdem">
+        <div class="po-md-12">
+          <div class="po-md-6">
+             <po-widget p-title="Dados do Item">
+              <div class="po-md-6" ><po-input name="it-codigo" formControlName="it-codigo" p-label="Item" p-mask="__.___._____-__" (p-blur)="leaveItem()"></po-input></div>
+              <div class="po-md-6"><po-input name="nf-saida" formControlName="nf-saida" p-label="Nota Fiscal" (p-blur)="leaveNFS()"></po-input></div>
+              <div class="po-md-6"><po-input name="Quantidade" formControlName="Quantidade" p-label="Quantidade"></po-input></div>
+              <div class="po-md-6"><po-input name="Serie-Nf-Saida" formControlName="Serie-Nf-Saida" p-label="Série"></po-input></div>
+              <div class="po-md-6"><po-input name="Nat-Operacao" formControlName="Nat-Operacao" p-label="Nat.Operação"></po-input></div>
+              <div class="po-md-6"><po-input name="Evento" formControlName="Evento" p-label="Evento"></po-input></div>
+             </po-widget>
+          </div>
+          <div class="po-md-6">
+            <div class="po-md-12"><po-widget>
+              <po-radio-group name="ret-transp" formControlName="ret-transp" [p-columns]=1 p-label="Itens de Residentes"
+                [p-options]="[
+                  { label: 'Não Retornou por Transportador', value: 1 },
+                  { label: 'Retornou por Transportador', value: 2 }
+                ]">
+            </po-radio-group>
+
+            </po-widget></div>
+            <div class="po-md-12"><po-widget p-title="Itens - Série">
+              <div class="po-md-4" ><po-input name="envelope-seguranca" formControlName="envelope-seguranca" p-label="Envelope Segurança"></po-input></div>
+              <div class="po-md-4" ><po-input name="serie-ins" formControlName="serie-ins" p-label="Num Série Instalado"></po-input></div>
+              <div class="po-md-4" ><po-input name="serie-ret" formControlName="serie-ret" p-label="Num. Série Retirado"></po-input></div>
+              
+            </po-widget></div>
+          </div>
+          
+        </div>
+
+        <div class="po-md-6"><po-widget p-title="Dados da ENC">
+          <div class="po-md-12" style="margin-bottom: 10px;">
+              <po-checkbox name="tag-enc" formControlName="tag-enc" p-label="ENC Não Informada" (p-change)="tagEnc()"> </po-checkbox>
+          </div>
+          <div class="po-md-4"><po-input name="nr-enc" formControlName="nr-enc" p-label="Número ENC" [p-maxlength]=9></po-input></div>
+          <div class="po-md-4"><po-input name="Serie-enc" formControlName="Serie-enc" p-label="Série ENC"></po-input></div>
+          <div class="po-md-4" style="margin-top: 33px;">
+            <po-button p-icon="bi bi-plus" [p-disabled]="lDisabled" (p-click)="onCadEnc()" p-help="Cadastro de Enc" p-tooltip="Incluir Nova ENC"></po-button></div>
+        </po-widget></div>
+        
+      </form>
+  </po-modal>
+
+  <po-modal #abrirArquivo [p-title]="nomeArquivo" p-size="auto" p-click-out="false" [p-primary-action]="acaoSair"
+  [p-secondary-action]="acaoImprimir">
+
+  <div innerHtml={{this.conteudoArquivo}} class="formatoTexto"></div>
+
+  </po-modal>
+
+  <po-modal #telaSeriesPendentes p-title="Números de Séries Pendentes"
+                              p-size="xl" 
+                              p-click-out="false" 
+                              [p-hide-close]="true"
+                              [p-primary-action]="acaoOKEncPendente" 
+                              [p-secondary-action]="acaoSairEncPendente"
+                              >
+        <po-table [p-items]="listaEnc" #gridEnc
+                  [p-loading]="loadGridEnc" 
+                  [p-striped]="true" 
+                  [p-single-select]="true"
+                  [p-selectable]="true"
+                  [p-columns]="colunasEnc"
+                  p-container="true"
+                  [p-height]="330"
+                  [p-sort]="false"
+                  [p-hide-table-search]="false" 
+                  [p-hide-columns-manager]="true">
+            <ng-template p-table-cell-template let-column="column" let-row="row">
+             
+              <div class="enc" *ngIf="column.property === 'nr-enc'">
+                <i class="bi bi-upc"></i><input [(ngModel)]="row['nr-enc']" name="nr-enc" (focus)="onFocusNumSerie(row)" maxlength="9">
+              </div>
+              <div class="serie" *ngIf="column.property === 'num-serie-it'">
+                <i class="bi bi-upc"></i><input [(ngModel)]="row['num-serie-it']" name="num-serie-it" (blur)="onLeaveNumSerieItemPendente(row)" (focus)="onFocusNumSerie(row)" >
+              </div>
+            
+            </ng-template>
+            
+        </po-table>
+  </po-modal>
+
+

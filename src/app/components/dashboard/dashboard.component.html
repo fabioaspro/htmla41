@@ -1,0 +1,182 @@
+<div class="sample-container">
+  <po-loading-overlay *ngIf="loadTela===true" [p-screen-lock]="true"></po-loading-overlay>
+</div>
+
+<div class="po-md-12" style="margin-bottom: 10px;">
+  <div class="po-md-5" style="display: flex; gap: 10px;">
+    <!-- <po-button (p-click)="LogarUsuario()" p-icon="bi bi-person-workspace" p-tooltip="Selecionar outro usuário"></po-button> -->
+    <po-button (p-click)="verificarNotas()" p-icon="bi bi-arrow-clockwise" p-label="Atualizar" p-tooltip="Atualizar Informações Tela" p-kind="primary"></po-button>
+    <po-button p-label="Reprocessar" (p-click)="onReprocessarNotas()" p-icon="bi bi-calendar2-check" 
+      p-tooltip="Reprocessar Notas Fiscais"></po-button>
+
+  </div>
+  <div class="po-md-7">
+    <div class="rpwInfo ok">
+      <div class="icone"><i class="bi bi-exclamation-triangle"></i></div>
+      <div>
+        <div>{{cRPW | uppercase}}</div>
+        <!-- <span>{{infoTela}}</span> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="po-md-12">
+  <po-accordion #principal p-allow-expand-all-items="false" p-show-manager-accordion="false">
+    <po-accordion-item p-label="Logs do Processo">
+      <po-widget>
+
+        <po-table [p-items]="listaErros" [p-striped]="true" [p-sort]="true" [p-height]="alturaGridLog"
+          [p-columns]="colunasErro" [p-hide-table-search]="true"
+          [p-hide-columns-manager]="true">
+
+          <ng-template  p-table-column-template p-property="nomeArquivo" let-value>
+             <btnDownload [nomeArquivo]="value"></btnDownload>
+          </ng-template>
+
+        </po-table>
+
+
+      </po-widget>
+      <po-widget p-title="Mensagem RPW">
+        <div class="po-md-12"><span>{{cMensagemErroRPW}}</span></div>
+      </po-widget>
+      
+    </po-accordion-item>
+
+    <po-accordion-item #item1 p-label="Notas Fiscais de ENTRADA" p-tooltip="1">
+      <po-widget>
+        <!-- <po-progress [p-value]="percNFE" [p-show-percentage]="true" p-text="Notas processadas"></po-progress>
+        <po-divider></po-divider> -->
+        <po-table [p-items]="listaNFE" 
+                  [p-striped]="true" 
+                  [p-sort]="true" 
+                  [p-loading]="loadGrid"
+                  [p-height]="alturaGridEntra"
+                  [p-columns]="colunasNFE" 
+                  [p-hide-table-search]="true" 
+                  [p-hide-columns-manager]="true"
+                  (p-expanded)="ObterItensNFE($event)"
+                  >
+                  <ng-template p-table-row-template let-rowItem let-i="rowIndex" [p-table-row-template-show]="mostrarDetalhe">
+                    
+                    <po-table [p-columns]="colunasItensNota" 
+                              [p-items]="listaItems"
+                              [p-striped]="true" 
+                              [p-sort]="true" 
+                              [p-height]="300"
+                              p-container="true"
+                              [p-hide-table-search]="false" 
+                              [p-hide-columns-manager]="true" >
+
+                    </po-table>
+                  </ng-template>
+          </po-table>   
+      </po-widget>
+    </po-accordion-item>
+    <po-accordion-item #item2 p-label="Notas Fiscais de SAÍDA" p-tooltip="2">
+       <po-widget>
+        <div class="efetivacaoInfo">
+          <div style="display: flex; gap: 10px;">
+
+            
+            <!-- <po-button (p-click)="onForcarEfetivarProcesso()" 
+                      p-icon="bi bi-check-lg" 
+                      p-label="Efetivar Processo" 
+                      p-danger="true">
+            </po-button> -->
+
+            <!-- OPCAO DE EFETIVACAO -->
+
+            <po-button (p-click)="onChamarLogin()" 
+              p-icon="bi bi-check-lg" 
+              p-label="Efetivar Processo" 
+              p-danger="true">
+            </po-button>
+
+            <po-button (p-click)="onReenviarNotasSefaz()" 
+              p-icon="bi bi-arrow-up-circle" 
+              p-label="Reenviar Notas SEFAZ" 
+              >
+            </po-button>
+          </div>
+          
+        </div>
+        <!-- <po-progress [p-value]="percNFS" [p-show-percentage]="true" p-text="Notas processadas"></po-progress>
+        <po-divider></po-divider> -->
+
+        <po-table [p-items]="listaNFS" 
+                  [p-striped]="true" 
+                  [p-sort]="true" 
+                  [p-loading]="loadGrid"
+                  [p-height]="alturaGridSai"
+                  [p-columns]="colunasNFS"
+                  [p-hide-table-search]="true" 
+                  (p-expanded)="ObterItensNFS($event)"
+                  [p-hide-columns-manager]="true">
+                  <ng-template p-table-row-template let-rowItem let-i="rowIndex" [p-table-row-template-show]="mostrarDetalhe">
+                    
+                    <po-table [p-columns]="colunasItensNota" 
+                              [p-items]="listaItems"
+                              p-container="true"
+                              [p-sort]="true" 
+                              [p-striped]="true" 
+                              [p-height]="200"
+                              [p-hide-table-search]="false" 
+                              [p-hide-columns-manager]="true" >
+
+                    </po-table>
+                  </ng-template>
+        </po-table>
+      </po-widget>
+    </po-accordion-item>
+  </po-accordion>
+
+</div>
+
+<po-modal #abrirArquivo [p-title]="nomeArquivo" p-size="auto" p-click-out="false" [p-primary-action]="acaoSair"
+  [p-secondary-action]="acaoImprimir">
+
+  <!-- <po-button p-label="Gerar PDF" p-kind="primary" (p-click)="onImprimirConteudoArquivo()"></po-button> -->
+  <div innerHtml={{this.conteudoArquivo}} class="formatoTexto"></div>
+
+  <!--    <po-textarea [(ngModel)]="conteudoArquivo" [p-rows]="15"></po-textarea>-->
+
+
+</po-modal>
+
+
+<po-modal #loginModal_login 
+         p-title="Efetuar Login" 
+         p-size="sm" 
+         p-click-out="false"
+         [p-hide-close]=true
+         [p-secondary-action]="acaoLogin_cancel" 
+         [p-primary-action]="acaoLogin_login">
+
+  <div class="po-row">
+    <po-combo [ngModel]="codEstabelecimento_login" (ngModelChange)="codEstabelecimento_login = $event" class="po-md-12"
+      [p-options]="listaEstabelecimentos" p-label="Estabelecimento" p-icon="bi bi-pin-map"
+      p-placeholder="Selecione o estabelecimento" p-clean="true">
+      <ng-template p-combo-option-template let-option>
+        <div class="po-row">
+          <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="bi bi-pin-map"></po-icon>
+          <div class="po-sm-10 po-md-9 po-lg-11">
+            <div class="po-font-text-large-bold">{{ option.label }}</div>
+            <div class="po-font-text-smaller">Filial: {{ option.codFilial }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </po-combo>
+  </div>
+  <div class="po-row">
+    <po-input p-icon="bi bi-person-workspace" class="po-md-12" [(ngModel)]="codUsuario_login" p-mask="999999" p-clean
+      p-label="Usuário">
+    </po-input>
+  </div>
+
+  <div class="po-row">
+    <po-password class="po-md-12" [(ngModel)]="senha_login" p-clean p-label="Senha">
+    </po-password>
+  </div>
+</po-modal>

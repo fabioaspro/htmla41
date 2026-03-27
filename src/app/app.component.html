@@ -1,0 +1,32 @@
+<div class="body">
+<div class="po-wrapper">
+  <po-menu [p-menus]="menus" [p-automatic-toggle]="false" [p-collapsed]="false" #menuLateral>
+    <div *p-menu-header-template style="background: #004b87; border-radius: 5px;">
+      <div class="logo">
+        <img src="assets/logoDN.png" class="logo" width="250px" height="55px">
+      </div>
+      
+      <div style="min-height: 50px;">
+        <p style="color: white; text-align: center;padding-top: 10px"><b>AUTO ATENDIMENTO</b></p>
+        <hr>
+        <div *ngIf="estabInfo !== ''" class="painelProcess">
+          <p><i class="bi bi-pin-map"></i>&nbsp;{{estabInfo}}</p>
+          <p><i class="bi bi-person-workspace"></i>&nbsp;{{tecnicoInfo}}</p>
+          <p *ngIf="processoInfo !== ''"><i class="bi bi-clipboard-data"></i>&nbsp;{{processoInfo}}</p>
+          <p class="infoProcess" *ngIf="processoInfo !== ''"><i>{{processoSituacao}}</i></p>
+
+          <button class="po-button" style="margin: 20px 10px; background-color: var(--color-07); color:white; " (click)="DesbloquearProcesso()"> <i class="bi bi-unlock"></i>&nbsp;Desbloquear Processo</button>
+        </div>
+      </div>
+    </div>
+  </po-menu>
+
+  <po-toolbar p-title={{tituloTela}}></po-toolbar>
+  
+
+  <po-page-default>
+    <router-outlet></router-outlet>
+  </po-page-default>
+</div>
+
+</div>
