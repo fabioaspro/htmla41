@@ -45,8 +45,6 @@ export class CalculoComponent {
 @ViewChild('abrirArquivo', { static: true }) abrirArquivo: | PoModalComponent | undefined;
 @ViewChild('timer', { static: true }) telaTimer: | PoModalComponent | undefined;
 
-  
-//teste fas
 
 acaoImprimir: PoModalAction = {
   action: () => {
