@@ -46,7 +46,7 @@ export class CalculoComponent {
 @ViewChild('timer', { static: true }) telaTimer: | PoModalComponent | undefined;
 
   
-
+//teste fas
 
 acaoImprimir: PoModalAction = {
   action: () => {
