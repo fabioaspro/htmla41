@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { PoMenuItem, PoModalAction, PoModalComponent, PoPageAction, PoRadioGroupOption, PoStepperComponent, PoTableAction, PoTableColumn, PoTableComponent, PoNotificationService, PoDialogService, PoNotification, PoButtonComponent, PoLoadingModule, PoStepperModule, PoWidgetModule, PoDividerModule, PoFieldModule, PoIconModule, PoTableModule, PoButtonModule, PoTooltipModule, PoRadioGroupModule, PoModalModule } from '@po-ui/ng-components';
 import { TotvsService } from '../../services/totvs-service.service';
-import { catchError, delay, elementAt, interval, Subscription } from 'rxjs';
+import { catchError, concatMap, delay, elementAt, finalize, forkJoin, from, interval, Subscription, tap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { ExcelService } from '../../services/excel-service.service';
 import { Usuario } from '../../interfaces/usuario';
@@ -150,6 +150,11 @@ cRowId = ''
 
 //------ Controle Tela
 mostrarDetalhe:boolean=false
+
+//Exclusão de pagamentos
+statusExclusao: string = ''
+idExcluindo: number | null = null
+progressoExclusao: string = ''
 
 acaoLogin: PoModalAction = {
   action: () => {
@@ -565,8 +570,8 @@ readonly acaoLogar: PoModalAction = {
         //Chamar servico
         this.srvTotvs.ObterExtraKit(paramsE).subscribe({
         next:(response:any) => {
-            this.listaExtraKit = response.items ?? []
-            
+            //2.1 - FAS - this.listaExtraKit = response.items ?? []
+            this.listaExtraKit = (response.items ?? [] as any[]).sort(this.ordenarCampos(['nroDocto'])) 
         },
         error: (e) => {
               return false
@@ -839,7 +844,7 @@ readonly acaoLogar: PoModalAction = {
           this.tituloDetalhe = `Pagamentos: ${this.itemsDetalhe.length} registros`
 
           //Atualizar contadores tela de resumos
-          this.AtualizarLabelsContadores();
+          this.AtualizarLabelsContadores()
 
           
           let param:any={id:id.id, codEstabel:this.codEstabelecimento, codTecnico:this.codTecnico}
@@ -864,6 +869,50 @@ readonly acaoLogar: PoModalAction = {
         literals: {"cancel": "Não", "confirm": "Sim"},
         confirm: () => {
 
+          this.loadTela = true
+          
+          const total = this.itemsDetalhe.length
+          let atual = 0
+
+            from(this.itemsDetalhe)
+              .pipe(
+                concatMap(item => {
+
+                  atual++
+
+                  // ✅ Atualiza mensagem do loader
+                  this.labelLoadTela = `Exc. ${atual} de ${total} — ID: ${item.id}`
+
+                  const param = {
+                    id: item.id,
+                    codEstabel: this.codEstabelecimento,
+                    codTecnico: this.codTecnico
+                  };
+
+                  return this.srvTotvs.EliminarPorId(param).pipe(
+                    tap(() => {
+                      // ✅ remove da tela somente após sucesso
+                      const idx = this.itemsResumo.findIndex(o => o.id === item.id);
+                      if (idx > -1) {
+                        this.itemsResumo.splice(idx, 1);
+                      }
+                    })
+                  );
+                }),
+                finalize(() => {
+                  this.loadTela = false
+                  this.statusExclusao = ''
+                  //Atualizar contadores tela de resumos
+                  this.AtualizarLabelsContadores()
+                })
+              )
+              .subscribe({
+                error: err => {
+                  console.error('Erro ao excluir pagamento:', err)
+                }
+              })            
+
+          /*old
           this.itemsDetalhe.forEach(item=>{
 
             //Tirar da lista de Resumo
@@ -874,18 +923,27 @@ readonly acaoLogar: PoModalAction = {
             //Apagar na base
             let param:any={id:item.id, codEstabel:this.codEstabelecimento, codTecnico:this.codTecnico}
             this.srvTotvs.EliminarPorId(param).subscribe({
-              next: (response: any) => {}, 
+              next: (response: any) => {console.log(response)
+                }, 
               //FAS
-              error:(e)=>{this.loadTela=false}, 
-              complete: () => { this.loadTela = false}})
+              error:(e)=>{console.log("ponto1")
+                this.loadTela=false}, 
+              complete: () => { 
+                
+                console.log("ponto2")
+                this.loadTela = false
+              }
+            })
 
           })
+          */
+
           this.itemsDetalhe=[]
           //Atualiar label de tela
           this.tituloDetalhe = `Pagamentos: ${this.itemsDetalhe.length} registros`
 
           //Atualizar contadores tela de resumos
-          this.AtualizarLabelsContadores();
+          this.AtualizarLabelsContadores()
           
           this.srvNotification.success("Registro eliminados com sucesso !")
         },
